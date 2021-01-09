@@ -11,6 +11,8 @@ const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+app.get('/', (req, res) => res.send(`Welcome to Varsyno`));
+
 app.post('/suggest', async (req, res) => {
     const {words, case: caseTypeName} = req.body;
 
