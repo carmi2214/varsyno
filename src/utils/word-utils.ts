@@ -42,22 +42,22 @@ export const chooseCaseFunction = (caseTypeName: string): (word: string) => stri
     return caseFunction;
 };
 
-export const generateVariables = (wordsComponents: string[][], prependedVariables: string[] = []): string[] => {
+export const generateVariables = (wordsComponents: string[][], prependedVariables: string[] = [], isFirstTime = true): string[] => {
     if (!Array.isArray(wordsComponents) ||
-        wordsComponents.length < 2 ||
+        isEmpty(wordsComponents) ||
         !Array.isArray(wordsComponents[0]) ||
         (!Array.isArray(wordsComponents[1]) && isEmpty(prependedVariables))) {
-        if (isEmpty(prependedVariables) && Array.isArray(wordsComponents) && Array.isArray(wordsComponents[0])) {
+        if (isFirstTime) {
             return wordsComponents[0];
         }
         return prependedVariables;
     }
 
-    let firstWordOptions = wordsComponents[0];
-    let secondWordOptions = wordsComponents[1];
-    if (!isEmpty(prependedVariables)) {
-        firstWordOptions = prependedVariables;
-        secondWordOptions = wordsComponents[0];
+    let firstWordOptions = prependedVariables;
+    let secondWordOptions = wordsComponents[0];
+    if (isFirstTime) {
+        firstWordOptions = wordsComponents[0];
+        secondWordOptions = wordsComponents[1];
     }
 
     const combinations = [];
@@ -67,5 +67,5 @@ export const generateVariables = (wordsComponents: string[][], prependedVariable
         }
     }
 
-    return generateVariables(wordsComponents.slice(1), combinations);
+    return generateVariables(wordsComponents.slice(isFirstTime ? 2 : 1), combinations, false);
 };
