@@ -1,8 +1,11 @@
 import {isEmpty} from "lodash";
 import {CaseEnum} from "../enums/case.enum";
 import Case from "case";
+import {WordInput} from "../types/word-input";
 
-export const isSingleWord = (sentence: string): boolean => sentence.split(' ').length === 1;
+export const isSingleWordSentence = (sentence: string): boolean => sentence.split(' ').length === 1;
+
+export const isSkippedWordInput = (wordInput: string | WordInput) => typeof wordInput !== "string" && wordInput?.options?.skip;
 
 export const chooseCaseFunction = (caseTypeName: string): (word: string) => string => {
     let caseFunction: (word: string) => string;
